@@ -88,7 +88,7 @@ auto start_child(const char* const rootfs) -> int {
 
     auto       ready      = EventFileDescriptor();
     const auto child_args = ChildMainArgs{rootfs, ready};
-    const auto child      = clone(reinterpret_cast<CloneEntry>(&child_main), reinterpret_cast<uint8_t*>(stack) + STACK_SIZE, SIGCHLD, const_cast<ChildMainArgs*>(&child_args));
+    const auto child      = clone(reinterpret_cast<CloneEntry>(&child_main), reinterpret_cast<uint8_t*>(stack) + STACK_SIZE, CLONE_NEWPID | CLONE_NEWUSER | CLONE_NEWNS, const_cast<ChildMainArgs*>(&child_args));
     if(child == -1) {
         return -1;
     }
