@@ -48,7 +48,7 @@ auto parent_write_ug_map(const pid_t child) -> bool {
         auto path = std::stringstream();
         auto data = std::stringstream();
         path << "/proc/" << child << "/gid_map";
-        data << "0 " << getgid() << "1\n";
+        data << "0 " << getgid() << " 1\n";
         if(!write_string(path.str().data(), data.str().data())) {
             return false;
         }
@@ -58,7 +58,7 @@ auto parent_write_ug_map(const pid_t child) -> bool {
         auto path = std::stringstream();
         auto data = std::stringstream();
         path << "/proc/" << child << "/uid_map";
-        data << "0 " << getuid() << "1\n";
+        data << "0 " << getuid() << " 1\n";
         if(!write_string(path.str().data(), data.str().data())) {
             return false;
         }
