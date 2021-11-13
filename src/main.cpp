@@ -37,28 +37,32 @@ auto write_string(const char* const path, const char* const str) -> bool {
 }
 
 auto parent_write_ug_map(const pid_t child) -> bool {
-    auto path = std::stringstream();
-    auto data = std::stringstream();
-    path << "/proc/" << child << "/setgroups";
-    if(!write_string(path.str().data(), "deny")) {
-        return false;
+    {
+        auto path = std::stringstream();
+        path << "/proc/" << child << "/setgroups";
+        if(!write_string(path.str().data(), "deny")) {
+            return false;
+        }
     }
-    path.clear();
-
-    path << "/proc/" << child << "/gid_map";
-    data << "0 " << getgid() << "1\n";
-    if(!write_string(path.str().data(), data.str().data())) {
-        return false;
+    {
+        auto path = std::stringstream();
+        auto data = std::stringstream();
+        path << "/proc/" << child << "/gid_map";
+        data << "0 " << getgid() << "1\n";
+        if(!write_string(path.str().data(), data.str().data())) {
+            return false;
+        }
     }
-    path.clear();
-    data.clear();
+    {
 
-    path << "/proc/" << child << "/uid_map";
-    data << "0 " << getuid() << "1\n";
-    if(!write_string(path.str().data(), data.str().data())) {
-        return false;
+        auto path = std::stringstream();
+        auto data = std::stringstream();
+        path << "/proc/" << child << "/uid_map";
+        data << "0 " << getuid() << "1\n";
+        if(!write_string(path.str().data(), data.str().data())) {
+            return false;
+        }
     }
-
     return true;
 }
 
