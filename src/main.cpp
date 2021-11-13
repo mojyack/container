@@ -30,7 +30,7 @@ auto child_main(const ChildMainArgs* const args) -> int {
     constexpr auto STR_NULL  = (char*)(NULL);
     const auto     init_arg  = std::array<char*, 2>{const_cast<char*>(INIT_PATH), STR_NULL};
     const auto     init_env  = std::array<char*, 1>{STR_NULL};
-    execve((const char*)INIT_PATH, init_arg.data(), init_env.data());
+    execve(INIT_PATH, init_arg.data(), init_env.data());
     return -1;
 }
 
